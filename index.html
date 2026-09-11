@@ -181,7 +181,7 @@ footer{ font-size:12px; color:var(--muted); border-top:1px solid var(--border); 
 
   <section>
     <div class="section-head"><h2>Conditions during the flight</h2></div>
-    <div class="xref-bar" id="xref-bar">Hover any chart below to see wind, signal, and internet speed at that same moment.</div>
+    <div class="xref-bar" id="xref-bar">Hover any chart below to see wind, battery, signal, and internet speed at that same moment.</div>
 
     <div class="chart-grid">
     <div class="chart-box full">
@@ -225,6 +225,47 @@ footer{ font-size:12px; color:var(--muted); border-top:1px solid var(--border); 
         <div class="item"><span class="swatch" style="background:var(--accent);"></span>Wind speed</div>
         <div class="item"><span class="swatch" style="background:var(--warning);"></span>High wind warning level</div>
         <div class="item"><span class="swatch" style="background:var(--error);"></span>Level where the aircraft heads home on its own</div>
+      </div>
+    </div>
+
+    <div class="chart-box full">
+      <div class="chart-title">Battery</div>
+      <div class="chart-caption">This is the chart that actually explains the landing. The two dashed lines are not fixed numbers, they move because the aircraft continuously recalculates how much charge it needs to get home, and that number climbed as the headwind got worse.</div>
+      <div class="chart-wrap">
+        <svg class="wind-chart" viewBox="0 0 800 260" role="img" aria-label="Battery charge dropping steadily from 94 percent to 2 percent, crossing the automatic return-home line around 15:27 and the critical landing line at 15:33" id="battery-svg">
+          <line class="grid-line" x1="48" y1="16" x2="780" y2="16"/>
+          <line class="grid-line" x1="48" y1="220" x2="780" y2="220"/>
+          <text class="axis-label" x="40" y="223" text-anchor="end">0%</text>
+          <text class="axis-label" x="40" y="19" text-anchor="end">100%</text>
+
+          <polyline class="threshold-line warn" points="70.9,184.81 93.8,175.63 116.6,161.6 139.5,149.87 162.4,151.4 185.3,148.6 208.1,150.64 231.0,148.85 253.9,152.39 276.8,154.72 299.6,155.99 322.5,157.01 345.4,155.74 368.3,154.72 391.1,154.21 414.0,153.26 436.9,159.38 459.8,162.88 482.6,165.21 505.5,166.96 528.4,166.96 551.3,168.74 574.1,166.96 597.0,168.42 619.9,169.0 642.8,167.83 665.6,164.05 688.5,173.08 711.4,182.11 734.3,185.9 757.1,187.36"/>
+          <polyline class="threshold-line rth" points="70.9,205.72 93.8,205.72 116.6,205.72 139.5,205.72 162.4,205.72 185.3,205.72 208.1,205.72 231.0,205.72 253.9,205.72 276.8,205.72 299.6,205.72 322.5,205.72 345.4,205.72 368.3,205.72 391.1,205.72 414.0,205.72 436.9,205.72 459.8,205.72 482.6,205.72 505.5,205.72 528.4,205.72 551.3,205.72 574.1,205.72 597.0,211.84 619.9,211.84 642.8,211.84 665.6,211.84 688.5,211.84 711.4,211.84 734.3,211.84 757.1,207.76"/>
+
+          <polyline class="data-line" id="battery-line" points="70.9,29.0 93.8,34.36 116.6,40.48 139.5,46.6 162.4,50.93 185.3,56.8 208.1,61.64 231.0,67.0 253.9,73.12 276.8,78.95 299.6,83.83 322.5,89.44 345.4,95.56 368.3,101.68 391.1,107.03 414.0,115.96 436.9,121.5 459.8,126.92 482.6,132.28 505.5,137.63 528.4,142.48 551.3,148.34 574.1,152.68 597.0,161.13 619.9,169.29 642.8,177.74 665.6,186.49 688.5,194.7 711.4,202.51 734.3,211.84 757.1,215.92"/>
+
+          <circle class="peak-dot" cx="619.9" cy="169.29" r="4"/>
+          <text class="peak-label" x="580" y="150" text-anchor="end">Would auto-return anyway, ~15:27</text>
+
+          <circle class="peak-dot" style="fill:var(--error);" cx="734.3" cy="211.84" r="4"/>
+          <text class="peak-label" style="fill:var(--error);" x="734.3" y="200" text-anchor="middle">Critical landing, 15:33</text>
+
+          <text class="axis-label" x="48" y="240" text-anchor="start">15:03</text>
+          <text class="axis-label" x="185" y="240" text-anchor="middle">15:09</text>
+          <text class="axis-label" x="322" y="240" text-anchor="middle">15:15</text>
+          <text class="axis-label" x="460" y="240" text-anchor="middle">15:21</text>
+          <text class="axis-label" x="597" y="240" text-anchor="middle">15:27</text>
+          <text class="axis-label" x="734" y="240" text-anchor="middle">15:33</text>
+
+          <line class="hover-crosshair" id="battery-hover-x" x1="0" y1="16" x2="0" y2="220"/>
+          <circle class="hover-dot" id="battery-hover-dot" r="4"/>
+          <rect x="48" y="16" width="732" height="204" fill="transparent" id="battery-hover-target" style="cursor:crosshair"/>
+        </svg>
+        <div class="chart-tooltip" id="battery-tt"></div>
+      </div>
+      <div class="chart-legend">
+        <div class="item"><span class="swatch" style="background:var(--accent);"></span>Battery charge remaining</div>
+        <div class="item"><span class="swatch" style="background:var(--warning);"></span>Line where an automatic return-home triggers</div>
+        <div class="item"><span class="swatch" style="background:var(--error);"></span>Line where a critical landing triggers</div>
       </div>
     </div>
 
@@ -350,6 +391,17 @@ footer{ font-size:12px; color:var(--muted); border-top:1px solid var(--border); 
       ]
     },
     {
+      key: "battery", svgId: "battery-svg", hoverXId: "battery-hover-x", hoverDotId: "battery-hover-dot", ttId: "battery-tt",
+      yMax: 100, unit: "%", decimals: 0, plainLabel: "Battery",
+      points: [
+        [1,93.625],[2,91.0],[3,88.0],[4,85.0],[5,82.875],[6,80.0],[7,77.625],[8,75.0],
+        [9,72.0],[10,69.1429],[11,66.75],[12,64.0],[13,61.0],[14,58.0],[15,55.375],
+        [16,51.0],[17,48.2857],[18,45.625],[19,43.0],[20,40.375],[21,38.0],[22,35.125],
+        [23,33.0],[24,28.8571],[25,24.8571],[26,20.7143],[27,16.4286],[28,12.4],[29,8.5714],
+        [30,4.0],[31,2.0]
+      ]
+    },
+    {
       key: "signal", svgId: "signal-svg", hoverXId: "signal-hover-x", hoverDotId: "signal-hover-dot", ttId: "signal-tt",
       yMax: 5, unit: "bars", decimals: 1, plainLabel: "Signal",
       points: [
@@ -417,7 +469,7 @@ footer{ font-size:12px; color:var(--muted); border-top:1px solid var(--border); 
       if (c.hoverDot) c.hoverDot.style.opacity = 0;
       if (c.tt) c.tt.style.opacity = 0;
     });
-    if (xref) xref.textContent = "Hover any chart below to see wind, signal, and internet speed at that same moment.";
+    if (xref) xref.textContent = "Hover any chart below to see wind, battery, signal, and internet speed at that same moment.";
   }
 
   charts.forEach(c => {
